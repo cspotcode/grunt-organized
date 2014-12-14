@@ -1,28 +1,27 @@
 module.exports = function(grunt) {
-    
     var _ = require('lodash');
 
     // Load all grunt tasks
     require('load-grunt-tasks')(grunt);
-    
+
     // Dog-fooding
-    var gruntOrganized = require('./built/lib/index.js')(grunt, {
+    var gruntO = require('./built/lib/index.js')(grunt, {
         pkg: grunt.file.readJSON('package.json')
     });
-    
+
     var tsOptions = {
         module: 'commonjs',
         noImplicitAny: true
     };
-    
+
     var typedocOptions = {
         module: 'commonjs'
     };
     if(tsOptions.noImplicitAny) typedocOptions.noImplicitAny = '';
-    
-    grunt.task.renameTask('clean', 'clean_');
-    
-    gruntOrganized.registerTask('clean', 'Delete all generated files, including the compiled .js needed to use this module.', {
+
+    gruntO.task.renameTask('clean', 'clean_');
+
+    gruntO.registerTask('clean', 'Delete all generated files, including the compiled .js needed to use this module.', {
         clean_: {
             src: [
                 'built/**/*',
@@ -35,8 +34,8 @@ module.exports = function(grunt) {
             ]
         }
     });
-    
-    gruntOrganized.registerTask('prepublish', 'Delete all intermediate generated files, excluding distributable artifacts, to prepare for publishing.', {
+
+    gruntO.registerTask('prepublish', 'Delete all intermediate generated files, excluding distributable artifacts, to prepare for publishing.', {
         clean_: {
             src: [
                 'built/lib/.baseDir{.d.ts,.js,.js.map}',
@@ -48,8 +47,8 @@ module.exports = function(grunt) {
             ]
         }
     });
-    
-    gruntOrganized.registerTask('build', 'Build the module.', {
+
+    gruntO.registerTask('build', 'Build the module.', {
         ts: {
             src: ['src/lib/**/*.ts'],
             outDir: 'built/lib',
@@ -59,8 +58,8 @@ module.exports = function(grunt) {
             }, tsOptions)
         }
     });
-    
-    gruntOrganized.registerTask('test', 'Compile and run tests.', {
+
+    gruntO.registerTask('test', 'Compile and run tests.', {
         ts: {
             src: ['src/test/**/*.ts'],
             outDir: 'built',
@@ -72,8 +71,8 @@ module.exports = function(grunt) {
             src: ['built/test/**/*.spec.js']
         }
     });
-    
-    gruntOrganized.registerTask('docs', 'Generate API documentation.', {
+
+    gruntO.registerTask('docs', 'Generate API documentation.', {
         typedoc: {
             src: '<%= ts.build.src %>',
             options: _.defaults({
@@ -83,8 +82,7 @@ module.exports = function(grunt) {
             }, typedocOptions)
         }
     });
-    
-    grunt.registerTask('default', ['build']);
-    grunt.registerTask('all', ['clean', 'build', 'test', 'docs', 'prepublish']);
-    
+
+    gruntO.registerTask('default', ['build']);
+    gruntO.registerTask('all', ['clean', 'build', 'test', 'docs', 'prepublish']);
 };
