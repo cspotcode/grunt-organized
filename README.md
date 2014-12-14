@@ -129,8 +129,9 @@ Grunt-organized also lets you mix custom task functions, target configurations, 
 
 `npm install --save-dev grunt-organized`
 
-In your Gruntfile, load and invoke the module, passing it your `grunt` object and some initial grunt configuration.  This will return an object that mimics
-the grunt API such that it's a drop-in replacement for your original `grunt` object.  It will also call `grunt.initConfig`.
+In your Gruntfile, load and invoke the module, passing it your `grunt` object and optionally a grunt configuration
+object.  This will return an object that mimics the grunt API such that it's a drop-in replacement for `grunt`.
+It will also call `grunt.initConfig`.
 
 ```
 module.exports = function(grunt) {
@@ -140,7 +141,7 @@ module.exports = function(grunt) {
 }
 ```
 
-Alternatively, you can install the API onto your `grunt` object itself by calling `mixin`.
+Alternatively, you can monkey-patch the API onto your `grunt` object by calling `mixin`.
 
 ```
 module.exports = function(grunt) {
@@ -150,7 +151,7 @@ module.exports = function(grunt) {
     grunt.registerTask(/* ... */);
 ```
 
-Then configure plugins and register tasks using the enhanced APIs, original grunt APIs, or any mix of the two.
+Then configure plugins and register tasks using the enhanced APIs, original APIs, or any mix of the two.
 
 ##Grunt API Enhancements
 
@@ -158,7 +159,7 @@ Then configure plugins and register tasks using the enhanced APIs, original grun
 
 In addition to Grunt's normal `registerTask` interface, grunt-organized also supports:
 
-`grunt.registerTask(taskName: string, description?: string, ...tasks: (function|string|object)[])`
+`grunt.registerTask(taskName: string, description?: string, ...tasks: (function|string|object)[])`  
 `grunt.registerTask(taskName: string, description?: string, tasks: (function|string|object)[])`
 
 ###addConfig
