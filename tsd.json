@@ -1,0 +1,30 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "typings",
+  "bundle": "typings/tsd.d.ts",
+  "installed": {
+    "gruntjs/gruntjs.d.ts": {
+      "commit": "bd0833a22eb1c4e4a963068d4e2550fe866399d1"
+    },
+    "node/node.d.ts": {
+      "commit": "bd0833a22eb1c4e4a963068d4e2550fe866399d1"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "bd0833a22eb1c4e4a963068d4e2550fe866399d1"
+    },
+    "chai/chai.d.ts": {
+      "commit": "017cb72c292ba24e70afad99c12bc04778b7261c"
+    },
+    "sinon-chai/sinon-chai.d.ts": {
+      "commit": "017cb72c292ba24e70afad99c12bc04778b7261c"
+    },
+    "sinon/sinon.d.ts": {
+      "commit": "017cb72c292ba24e70afad99c12bc04778b7261c"
+    },
+    "mocha/mocha.d.ts": {
+      "commit": "017cb72c292ba24e70afad99c12bc04778b7261c"
+    }
+  }
+}

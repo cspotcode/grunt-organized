@@ -1,0 +1,42 @@
+{
+  "name": "grunt-organized",
+  "version": "0.0.1",
+  "description": "Allows describing grunt tasks in a more organized, readable style, grouped by target rather than task type.",
+  "author": "Andrew Bradley <cspotcode@gmail.com> (http://cspotcode.github.io)",
+  "contributors": [],
+  "maintainers": [],
+  "keywords": [
+    "grunt",
+    "typescript"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/cspotcode/grunt-organized",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cspotcode/grunt-organized.git"
+  },
+  "bugs": "https://github.com/cspotcode/grunt-organized/issues",
+  "main": "built/lib/index.js",
+  "scripts": {
+    "test": "grunt test",
+    "prepublish": "grunt prepublish"
+  },
+  "typescript": {
+    "definition": "lib/index.d.ts"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-mocha-test": "^0.12.4",
+    "grunt-ts": "^1.12.1",
+    "grunt-typedoc": "^0.2.1",
+    "load-grunt-tasks": "^1.0.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.6.0",
+    "source-map-support": "^0.2.8"
+  }
+}
