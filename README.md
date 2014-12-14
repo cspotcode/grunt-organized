@@ -125,7 +125,7 @@ Grunt-organized also lets you mix custom task functions, target configurations, 
     ]);
 ```
 
-##Usage:
+##Usage
 
 `npm install --save-dev grunt-organized`
 
@@ -152,11 +152,11 @@ module.exports = function(grunt) {
 
 Then configure plugins and register tasks using the enhanced APIs, original grunt APIs, or any mix of the two.
 
-##Grunt API Enhancements:
+##Grunt API Enhancements
 
 ###registerTask
 
-In addition to grunt's normal `registerTask interface, grunt-organized also supports:
+In addition to Grunt's normal `registerTask` interface, grunt-organized also supports:
 
 `grunt.registerTask(taskName: string, description?: string, ...tasks: (function|string|object)[])`
 `grunt.registerTask(taskName: string, description?: string, tasks: (function|string|object)[])`
@@ -185,7 +185,7 @@ grunt.addConfig({
 });
 ```
 
-##TypeScript definitions:
+##TypeScript definitions
 
 If you're using TypeScript, `grunt-organized` includes a type definition: `grunt-organized.d.ts`.
 
@@ -193,6 +193,6 @@ If you're using TypeScript, `grunt-organized` includes a type definition: `grunt
 /// <reference path="node_modules/grunt-organized/grunt-organized.d.ts" />
 ```
 
-##License:
+##License
 
 `grunt-organized` uses the MIT License.
