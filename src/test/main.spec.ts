@@ -7,7 +7,7 @@ import chai = require('chai');
 import sinon = require('sinon');
 var expect = chai.expect;
 
-import gruntOrganized = require('../lib/index');
+import gruntOrganized = require('../lib/main');
 
 describe('grunt-organized', () => {
     
