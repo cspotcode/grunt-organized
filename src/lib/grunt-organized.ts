@@ -4,12 +4,97 @@
 import gruntModule = require('grunt');
 import _ = require('lodash');
 
-export class GruntOrganized {
-    constructor(public grunt: IGrunt, public config: gruntModule.config.IProjectConfig = {}) {
-        this.grunt.initConfig(config);
-        _.bindAll(this);
-    }
+export interface IGruntOrganized extends IGrunt {
+    registerTask: typeof GruntOrganized.prototype.registerTask;
+    addConfig: typeof GruntOrganized.prototype.addConfig;
+    task: IGruntOrganizedTaskModule;
+}
 
+export interface IGruntOrganizedTaskModule extends gruntModule.task.TaskModule {
+    registerTask: typeof GruntOrganized.prototype.registerTask;
+}
+
+export class GruntOrganized {
+    constructor(public grunt: IGrunt, public configObject: gruntModule.config.IProjectConfig = {}) {
+        this.grunt.initConfig(configObject);
+
+        _.bindAll(this);
+        
+        // Add property getters and setters to `this` that proxy to the corresponding properties on this.grunt
+        // Exception: getting "task" returns this._wrappedTask and getting "registerTask" returns this.registerTask
+        _.forIn(this.grunt, (v: any, property: string) => {
+            var getter: () => any, setter: (value: any) => void;
+            
+            switch(property) {
+                case 'registerTask':
+                    // Skip this property.
+                    return;
+                    break;
+                
+                case 'task':
+                    getter = () => {
+                        return this._wrappedTask;
+                    };
+                    setter = (value) => {
+                        this._wrappedTask = value;
+                    };
+                    break;
+                
+                default:
+                    getter = () => {
+                        return (<any>this.grunt)[property];
+                    };
+                    setter = (value) => {
+                        (<any>this.grunt)[property] = value;
+                    };
+            }
+
+            Object.defineProperty(this, property, {
+                get: getter,
+                set: setter,
+                enumerable: true,
+                configurable: true
+            });
+        });
+        
+        // Create our wrapper for this.grunt.task
+        // Add property getters and setters that proxy to this.grunt.task
+        // Exception; getting "registerTask" returns this.registerTask
+        this._wrappedTask = <any>{};
+        _.forIn(this.grunt.task, (v: any, property: string) => {
+            var getter: () => any, setter: (value: any) => void;
+
+            switch(property) {
+                case 'registerTask':
+                    getter = () => {
+                        return this.registerTask;
+                    };
+                    setter = (value) => {
+                        this.registerTask = value;
+                    };
+                    break;
+
+                default:
+                    getter = () => {
+                        return (<any>this.grunt.task)[property];
+                    };
+                    setter = (value) => {
+                        (<any>this.grunt.task)[property] = value;
+                    };
+            }
+
+            Object.defineProperty(this._wrappedTask, property, {
+                get: getter,
+                set: setter,
+                enumerable: true,
+                configurable: true
+            });
+        });
+        
+    }
+    
+    private _wrappedTask: IGruntOrganizedTaskModule;
+    
     addConfig(additional: {}): GruntOrganized {
         _.each(additional, (additionalTaskConfig: {}, taskName: string) => {
             this._addTargetsToTask(taskName, additionalTaskConfig);
@@ -20,8 +105,8 @@ export class GruntOrganized {
     }
 
     private _addTargetsToTask(taskName: string, additionalTargets: {}) {
-        if(!_.has(this.config, taskName)) this.config[taskName] = {};
-        var existingTaskConfig = this.config[taskName];
+        if(!_.has(this.configObject, taskName)) this.configObject[taskName] = {};
+        var existingTaskConfig = this.configObject[taskName];
         var existingTargetNames = _.keys(existingTaskConfig);
         var additionalTargetNames = _.keys(additionalTargets);
         var conflictingTargetNames = _.intersection(additionalTargetNames, existingTargetNames);
@@ -31,7 +116,7 @@ export class GruntOrganized {
     }
     
     private _unusedTargetNameForTask(taskName: string, targetName: string) {
-        var taskConfig = this.config[taskName];
+        var taskConfig = this.configObject[taskName];
         if(!taskConfig) return targetName;
         var postfix = 1;
         var unusedTargetName = targetName;
