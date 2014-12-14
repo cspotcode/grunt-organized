@@ -1,6 +1,8 @@
-This module extends the grunt API slightly to allow organizing your Gruntfile by target rather than by task.  It also makes your Gruntfile more DRY by making it easier to register tasks that execute a collection of other tasks.
+Grunt-organized enables you to write more organized Gruntfiles.  It enhances the Grunt API to allow organizing your Gruntfile by target rather than by task.  It also makes your Gruntfile more DRY by offering a clean, simple way to register a group of tasks under an alias.
 
-#Example Gruntfile.js
+##Example Gruntfile.js
+
+Here is a sample Gruntfile.js using grunt-organized.
 
 ```
 module.exports = function(grunt) {
@@ -54,7 +56,7 @@ module.exports = function(grunt) {
 };
 ```
 
-The above organized Gruntfile is equivalent to:
+The above Gruntfile is equivalent to:
 
 ```
     grunt.initConfig({
@@ -103,14 +105,16 @@ The above organized Gruntfile is equivalent to:
     grunt.registerTask('docs', 'Generate API documentation', ['copy:docs', 'markdown:docs']);
 ```
 
-grunt-organized takes care of merging multiple targets into the `copy` configuration and calling `grunt.registerTask` to create the alias tasks.
+Grunt-organized takes care of merging multiple targets into a single grunt-contrib-copy configuration and calls `grunt.registerTask` to create the alias tasks.
 
-grunt-organized also lets you mix custom task functions, target configurations, and task names in a single call to `registerTask`:
+Grunt-organized also lets you mix custom task functions, target configurations, and task names in a single call to `registerTask`:
 
 ```
-    // Register a task called 'cleanup' that will use grunt-contrib-clean, then run the 'stop-server' task, and then run
-    // a custom task.
-    grunt.registerTask('cleanup',
+    /*
+     * Register a task called 'cleanup' that will use grunt-contrib-clean, then
+     * run the 'stop-server' task, and finally run a custom task.
+     */
+    grunt.registerTask('cleanup', [
         {
             clean: { src: ['temp/**/*'] }
         },
@@ -118,47 +122,53 @@ grunt-organized also lets you mix custom task functions, target configurations, 
         function(grunt) {
             console.log('All done!');
         }
-    );
+    ]);
 ```
 
-#Usage:
+##Usage:
 
-In your Gruntfile, load the module and pass it the `grunt` object.  This will return an object that mimics the grunt API such that you can use it instead of `grunt`.
+`npm install --save-dev grunt-organized`
+
+In your Gruntfile, load and invoke the module, passing it your `grunt` object and some initial grunt configuration.  This will return an object that mimics
+the grunt API such that it's a drop-in replacement for your original `grunt` object.  It will also call `grunt.initConfig`.
 
 ```
 module.exports = function(grunt) {
-    var gruntOrganized = require('grunt-organized')(grunt, {
+    grunt = require('grunt-organized')(grunt, {
         pkg: grunt.file.readJSON('package.json')
     });
 }
 ```
 
-Alternatively, install the extended API onto `grunt` itself by calling `.mixin` instead.
+Alternatively, you can install the API onto your `grunt` object itself by calling `mixin`.
 
 ```
 module.exports = function(grunt) {
-    grunt = require('grunt-organized').mixin(grunt, {
+    require('grunt-organized').mixin(grunt, {
         pkg: grunt.file.readJSON('package.json')
     });
+    grunt.registerTask(/* ... */);
 ```
 
-#API Enhancements:
+Then configure plugins and register tasks using the enhanced APIs, original grunt APIs, or any mix of the two.
 
-##registerTask
+##Grunt API Enhancements:
+
+###registerTask
 
 In addition to grunt's normal `registerTask interface, grunt-organized also supports:
 
 `grunt.registerTask(taskName: string, description?: string, ...tasks: (function|string|object)[])`
 `grunt.registerTask(taskName: string, description?: string, tasks: (function|string|object)[])`
 
-##addConfig
+###addConfig
 
 `grunt.addConfig(configObject: object)`
 
-Adds more configuration into the existing grunt configuration, merging task targets into the existing configuration
+Adds more configuration into the existing grunt configuration, merging additional task targets into any existing configuration
 for that task.
 
-Example:
+*Example:*
 ```
 grunt.addConfig({
     clean: {
@@ -175,7 +185,7 @@ grunt.addConfig({
 });
 ```
 
-#TypeScript definitions:
+##TypeScript definitions:
 
 If you're using TypeScript, `grunt-organized` includes a type definition: `grunt-organized.d.ts`.
 
@@ -183,6 +193,6 @@ If you're using TypeScript, `grunt-organized` includes a type definition: `grunt
 /// <reference path="node_modules/grunt-organized/grunt-organized.d.ts" />
 ```
 
-#License:
+##License:
 
 `grunt-organized` uses the MIT License.
