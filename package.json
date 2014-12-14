@@ -22,7 +22,7 @@
     "prepublish": "grunt prepublish"
   },
   "typescript": {
-    "definition": "lib/index.d.ts"
+    "definition": "grunt-organized.d.ts"
   },
   "dependencies": {
     "lodash": "^2.4.1"
