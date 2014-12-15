@@ -196,4 +196,4 @@ If you're using TypeScript, `grunt-organized` includes a type definition: `grunt
 
 ##License
 
-`grunt-organized` uses the MIT License.
+Licensed under the MIT License.
