@@ -1,6 +1,6 @@
 {
   "name": "grunt-organized",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Allows describing grunt tasks in a more organized, readable style, grouped by target rather than task type.",
   "author": "Andrew Bradley <cspotcode@gmail.com> (http://cspotcode.github.io)",
   "contributors": [],
